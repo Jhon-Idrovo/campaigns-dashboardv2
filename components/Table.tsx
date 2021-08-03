@@ -66,12 +66,11 @@ function Table({ headersMap, rows, Body }: TablePropsInterface) {
               //since the display list comes from the headers list, it maintains the order
               displayRowKeys.includes(key) ? (
                 <th className="text-txt-base text-right" key={header}>
-                  <button>
+                  <button onClick={() => handleRequestSort(header)}>
                     {orderBy === header ? (
                       <FontAwesomeIcon
                         icon={faChevronUp}
                         {...(order === "desc" ? { flip: "vertical" } : null)}
-                        onClick={() => handleRequestSort(header)}
                       />
                     ) : null}
                     {header}
