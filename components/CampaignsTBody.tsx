@@ -8,19 +8,19 @@ function CampaignsTBody({
   rows: CampaignInterface[];
   displayRowKeys: string[];
 }) {
-  console.log(rows, displayRowKeys);
-
   return (
     <tbody>
       {rows.map((row) => (
-        <tr className="text-txt-base border-2">
+        <tr className="text-txt-base border-2" key={row.id}>
           <td>
             <button>
               <FontAwesomeIcon icon={faEye} />
             </button>
           </td>
           {displayRowKeys.map((key) => (
-            <td>{row[key]}</td>
+            <td key={key + row.id} className="text-right">
+              {row[key]}
+            </td>
           ))}
         </tr>
       ))}

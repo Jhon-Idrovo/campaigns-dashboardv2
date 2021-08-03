@@ -1,6 +1,3 @@
-import { RoomSharp, RowingSharp } from "@material-ui/icons";
-import { ReactNode } from "react";
-
 export declare interface ClientInterface {
   id: number;
   name: string;
@@ -36,6 +33,6 @@ export declare interface HeaderMappingInterface {
 }
 export declare interface TablePropsInterface {
   headersMap: HeaderMappingInterface[];
-  rows: AffiliateInterface[] | CampaignInterface[] | ClientInterface[];
+  rows: (AffiliateInterface | CampaignInterface | ClientInterface)[];
   Body: Function;
 }

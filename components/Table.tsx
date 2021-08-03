@@ -2,23 +2,27 @@ import { useState, useEffect } from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faChevronUp, faEllipsisH } from "@fortawesome/free-solid-svg-icons";
 
-import { TablePropsInterface } from "../lib/ts/interfaces";
+import { CampaignInterface, TablePropsInterface } from "../lib/ts/interfaces";
 
 type Order = "asc" | "desc";
 
 function Table({ headersMap, rows, Body }: TablePropsInterface) {
   //-----------ORDER AND SORTING----------------------
+  const [sortedRows, setSortedRows] = useState(rows);
   const [order, setOrder] = useState<Order>("asc");
   //based on the headers
   const [orderBy, setOrderBy] = useState<string>(headersMap[0].header);
   useEffect(() => {
+    let tempRows = [...sortedRows];
     rowsMergeSort<typeof rows[0]>(
-      rows,
+      tempRows,
       0,
-      rows.length - 1,
+      tempRows.length - 1,
       headersMap.filter(({ header }) => header === orderBy)[0].key,
       order
     );
+    console.log(sortedRows === tempRows);
+    setSortedRows(tempRows);
   }, [orderBy, order]);
   const handleRequestSort = (header: string) => {
     //determine the sorting order. If we don't have the table already sorted
@@ -61,15 +65,13 @@ function Table({ headersMap, rows, Body }: TablePropsInterface) {
             {headersMap.map(({ header, key }) =>
               //since the display list comes from the headers list, it maintains the order
               displayRowKeys.includes(key) ? (
-                <th className="text-txt-base">
+                <th className="text-txt-base text-right" key={header}>
                   <button>
                     {orderBy === header ? (
                       <FontAwesomeIcon
                         icon={faChevronUp}
                         {...(order === "desc" ? { flip: "vertical" } : null)}
-                        onClick={() =>
-                          setOrder((prev) => (prev === "asc" ? "desc" : "asc"))
-                        }
+                        onClick={() => handleRequestSort(header)}
                       />
                     ) : null}
                     {header}
@@ -79,7 +81,7 @@ function Table({ headersMap, rows, Body }: TablePropsInterface) {
             )}
           </tr>
         </thead>
-        <Body rows={rows} displayRowKeys={displayRowKeys} />
+        <Body rows={sortedRows} displayRowKeys={displayRowKeys} />
       </table>
     </>
   );
