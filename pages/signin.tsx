@@ -1,30 +1,22 @@
 import { useRouter } from "next/router";
 import { FormEvent, useState } from "react";
-import signupHandler from "../lib/api/singupHandler";
+import signinHandler from "../lib/api/signinHandler";
 
-function Signup() {
-  const [username, setUsername] = useState<string>("");
+function SignIn() {
   const [email, setEmail] = useState<string>("");
   const [password, setPassword] = useState<string>("");
-  const [isError, setIsError] = useState(false);
+
   const router = useRouter();
+  const [error, setError] = useState<false | string>(false);
   async function handleSubmit(e: FormEvent) {
     e.preventDefault();
-    (await signupHandler(username, email, password))
-      ? router.push("/panel/campaigns")
-      : setIsError(true);
+    const error = await signinHandler(email, password);
+    error ? setError(error) : router.push("/panel/campaigns");
   }
   return (
     <div className="form-container">
       <form onSubmit={handleSubmit} className="form shadow-xl">
-        <h3 className="form-title">SIGN UP</h3>
-        <input
-          type="text"
-          name="username"
-          value={username}
-          onChange={(e) => setUsername(e.target.value)}
-          placeholder="Username"
-        />
+        <h3 className="form-title">SIGN IN</h3>
         <input
           type="email"
           name="email"
@@ -40,11 +32,11 @@ function Signup() {
           onChange={(e) => setPassword(e.target.value)}
           placeholder="Password"
         />
-        {isError ? <p>Something went wrong, please try again</p> : null}
+        {error ? <p>{error}</p> : null}
         <input type="submit" value="Sign In" className="btn-high" />
       </form>
     </div>
   );
 }
 
-export default Signup;
+export default SignIn;
