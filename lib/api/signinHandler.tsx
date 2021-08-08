@@ -1,6 +1,11 @@
 import { AxiosResponse } from "axios";
 import axiosInstance from "./axios";
-
+/**
+ * Raises an alert if the signin process failed.
+ * @param email
+ * @param password
+ * @returns False if the sign in process went well. Otherwise returns the error.
+ */
 async function signinHandler(email: string, password: string) {
   try {
     const res = await axiosInstance.post("/auth/signin", {

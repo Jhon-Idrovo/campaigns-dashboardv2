@@ -1,8 +1,16 @@
+interface BaseUseInterface {
+  headersMap: HeaderMappingInterface[];
+  isLoading: boolean;
+  error: string;
+}
 export declare interface ClientInterface {
   id: number;
   name: string;
   type: string;
   comments: string;
+}
+export declare interface UseClientInteface extends BaseUseInterface {
+  rows: ClientInterface[];
 }
 
 export declare interface CampaignInterface {
@@ -15,9 +23,8 @@ export declare interface CampaignInterface {
   spend: number;
 }
 
-export declare interface UseCampaignsInterface {
+export declare interface UseCampaignsInterface extends BaseUseInterface {
   rows: CampaignInterface[];
-  headersMap: { header: string; key: string }[];
 }
 
 export declare interface AffiliateInterface {

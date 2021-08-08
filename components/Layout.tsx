@@ -5,13 +5,14 @@ import LoginNeeded from "./LoginNeeded";
 function Layout({ children }: { children: React.ReactNode }) {
   const [isSideBarOpen, setIsSideBarOpen] = useState<boolean>(false);
   const [isLoged, setIsLoged] = useState(
-    Boolean(window !== "undefined" && localStorage.getItem("ss"))
+    Boolean(typeof window !== "undefined" && localStorage.getItem("ss"))
   );
   function handleLogOut() {
-    window !== "undefined" &&
-      localStorage.removeItem("ss") &&
+    if (typeof window !== "undefined") {
+      localStorage.removeItem("ss");
       localStorage.removeItem("rr");
-    setIsLoged(false);
+      setIsLoged(false);
+    }
   }
   return (
     <div>

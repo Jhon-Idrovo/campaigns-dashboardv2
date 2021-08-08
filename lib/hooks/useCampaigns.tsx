@@ -1,39 +1,50 @@
-import { UseCampaignsInterface } from "../ts/interfaces";
+import { CampaignInterface, UseCampaignsInterface } from "../ts/interfaces";
+import { useQuery } from "react-query";
+import axiosInstance from "../api/axios";
+import { useState, useEffect } from "react";
+import axios, { AxiosError } from "axios";
 
 function useCampaigns() {
-  //use react-query to get the data from the server
+  const headersMap = [
+    { header: "ID", key: "id" },
+    { header: "Pages", key: "pages" },
+    { header: "Impressions", key: "impressions" },
+    { header: "Leads", key: "leads" },
+    { header: "Affiliates", key: "affiliates" },
+    { header: "Price", key: "price" },
+    { header: "Spend", key: "spend" },
+  ];
   //header are in the same order as the keys in the rows object
-  return {
-    rows: [
-      {
-        id: 152,
-        pages: 10,
-        impressions: 30000,
-        leads: 15000,
-        affiliates: ["Af1", "Af2"],
-        price: 3000,
-        spend: 2500,
-      },
-      {
-        id: 2,
-        pages: 100,
-        impressions: 50000,
-        leads: 30000,
-        affiliates: ["Af3", "Af4"],
-        price: 6000,
-        spend: 4000,
-      },
-    ],
-    headersMap: [
-      { header: "ID", key: "id" },
-      { header: "Pages", key: "pages" },
-      { header: "Impressions", key: "impressions" },
-      { header: "Leads", key: "leads" },
-      { header: "Affiliates", key: "affiliates" },
-      { header: "Price", key: "price" },
-      { header: "Spend", key: "spend" },
-    ],
-  } as UseCampaignsInterface;
+  const [returnObj, setReturnObj] = useState<UseCampaignsInterface>({
+    error: "",
+    headersMap,
+    isLoading: true,
+    rows: [],
+  });
+
+  const {
+    data: campaigns,
+    error,
+    isLoading,
+  } = useQuery("campaigns", () =>
+    axiosInstance
+      .get("/campaigns")
+      .then((res) => res.data.campaigns as CampaignInterface[])
+  );
+  useEffect(() => {
+    const errorMsg = error
+      ? axios.isAxiosError(error)
+        ? error.response?.data.error
+        : ""
+      : "";
+    setReturnObj({
+      error: errorMsg,
+      rows: campaigns ? campaigns : [],
+      headersMap,
+      isLoading,
+    });
+  }, [campaigns, error, isLoading]);
+  return returnObj;
 }
 
 export default useCampaigns;

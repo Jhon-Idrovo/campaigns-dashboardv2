@@ -1,6 +1,12 @@
 import { AxiosResponse } from "axios";
 import axiosInstance from "./axios";
-
+/**
+ * 
+ * @param username 
+ * @param email 
+ * @param password 
+ * @returns True if the proccess went well. Otherwise false.
+ */
 async function signupHandler(
   username: string,
   email: string,

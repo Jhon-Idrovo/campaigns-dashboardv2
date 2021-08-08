@@ -1,14 +1,40 @@
-import { ClientInterface } from "../ts/interfaces";
+import axios from "axios";
+import { useState, useEffect } from "react";
+import { useQuery } from "react-query";
+import axiosInstance from "../api/axios";
+import { UseClientInteface } from "../ts/interfaces";
 
 function useClients() {
-  return [
-    {
-      id: 150,
-      name: "Jhon",
-      type: "normal",
-      comments: "ldjf dlskjf alsdjsldf dslfdkj slj",
-    },
-  ] as ClientInterface[];
+  const baseClientObj = {
+    error: "",
+    isLoading: true,
+    rows: [],
+    headersMap: [],
+  } as UseClientInteface;
+  const [clientsObj, setClientsObj] =
+    useState<UseClientInteface>(baseClientObj);
+
+  const {
+    data: clients,
+    error,
+    isLoading,
+  } = useQuery("clients", () =>
+    axiosInstance.get("/clients").then((res) => res.data)
+  );
+  useEffect(() => {
+    let rows = [];
+    let errorMsg = "";
+    if (error) {
+      errorMsg = axios.isAxiosError(error)
+        ? (error.response?.data.error as string)
+        : "";
+    } else {
+      rows = clients;
+    }
+
+    setClientsObj({ ...baseClientObj, isLoading, error: errorMsg, rows });
+  }, [clients, isLoading, error]);
+  return clientsObj;
 }
 
 export default useClients;
