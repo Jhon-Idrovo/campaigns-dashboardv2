@@ -7,6 +7,7 @@ function useAffiliates() {
       campaigns: ["cladj", "ljldk"],
       paid: 150,
       reach: 500,
+      //comments is an array of comments
       comments: "kljlkjl",
     },
   ] as AffiliateInterface[];

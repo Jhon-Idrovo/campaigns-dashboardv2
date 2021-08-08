@@ -22,7 +22,7 @@ function CampaignsTBody({
           </td>
           {displayRowKeys.map((key) => (
             <td key={key + row.id} className="text-right">
-              {row[key]}
+              {row[key as any]}
             </td>
           ))}
         </tr>
