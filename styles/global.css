@@ -42,3 +42,19 @@ body {
   @apply rounded-md border-txt-base px-2 hover:bg-primary;
   border-width: 1px;
 }
+.btn-high {
+  @apply rounded-md bg-primary px-2 text-txt-primary hover:scale-125 cursor-pointer;
+}
+.form-container {
+  @apply flex justify-center items-center w-full;
+  height: 60vh;
+}
+.form {
+  @apply flex flex-col justify-center items-center p-4 rounded-md;
+}
+.form-title {
+  @apply font-medium text-lg;
+}
+input {
+  @apply p-2;
+}
