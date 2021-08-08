@@ -1,12 +1,18 @@
+import { useRouter } from "next/router";
 import { FormEvent, useState } from "react";
+import signupHandler from "../lib/api/singupHandler";
 
 function Signup() {
   const [username, setUsername] = useState<string>("");
   const [email, setEmail] = useState<string>("");
   const [password, setPassword] = useState<string>("");
-
+  const [isError, setIsError] = useState(false);
+  const router = useRouter();
   async function handleSubmit(e: FormEvent) {
     e.preventDefault();
+    (await signupHandler(username, email, password))
+      ? router.push("/panel/campaigns")
+      : setIsError(true);
   }
   return (
     <div className="form-container">

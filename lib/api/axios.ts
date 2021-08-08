@@ -7,7 +7,8 @@ const axiosInstance = axios.create({
     "Content-Type": "application/json",
     Accept: "application/json",
     //use a random name to increase security
-    "x-access-token": localStorage.getItem("ss"),
+    "x-access-token":
+      typeof window !== "undefined" && localStorage.getItem("ss"),
   },
 });
 
@@ -54,7 +55,8 @@ axiosInstance.interceptors.response.use(
           return axiosInstance
             .post("/get-new-access-token", { refresh: refreshToken })
             .then((response) => {
-              localStorage.setItem("ss", response.data.accessToken);
+              typeof window !== "undefined" &&
+                localStorage.setItem("ss", response.data.accessToken);
               // localStorage.setItem("refresh_token", response.data.refresh);
 
               axiosInstance.defaults.headers["x-access-token"] =
