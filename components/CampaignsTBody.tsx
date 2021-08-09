@@ -33,7 +33,7 @@ function CampaignsTBody({
               typeof [{some obj}][0] = object
               */}
               {typeof row[key as any][0] === "object"
-                ? row[key].map((refObj) => refObj.name)
+                ? row[key].map((refObj) => refObj?.name)
                 : row[key]}
             </td>
           ))}

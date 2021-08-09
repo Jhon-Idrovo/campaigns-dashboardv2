@@ -17,7 +17,7 @@ function Layout({ children }: { children: React.ReactNode }) {
     }
   }
   return (
-    <div className="bg-base min-h-screen">
+    <div className="bg-base h-screen">
       <nav className="text-txt-base bg-base flex justify-between">
         <button
           className="ml-4"

@@ -2,7 +2,11 @@ import { useState, useEffect } from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faChevronUp, faEllipsisH } from "@fortawesome/free-solid-svg-icons";
 
-import { CampaignInterface, TablePropsInterface } from "../lib/ts/interfaces";
+import {
+  CampaignInterface,
+  HeaderMappingInterface,
+  TablePropsInterface,
+} from "../lib/ts/interfaces";
 
 type Order = "asc" | "desc";
 
@@ -36,12 +40,12 @@ function Table({ headersMap, rows, Body }: TablePropsInterface) {
   const [dense, setDense] = useState<boolean>(false);
   const [page, setPage] = useState(0);
   const [rowsPerPage, setRowsPerPage] = useState(20);
-  //displayed rows
-  const [displayRowKeys, setDisplayRowKeys] = useState<string[]>(() => {
-    let headerKeys: string[] = [];
-    headersMap.map(({ key }) => headerKeys.push(key));
-    return headerKeys;
-  });
+  //displayed rows and headers
+  const { displayHeaders, headerKeys } = parseHeaders(headersMap);
+  const [headers, setHeaders] = useState({ ...displayHeaders });
+  const [displayRowKeys, setDisplayRowKeys] = useState<string[]>([
+    ...headerKeys,
+  ]);
 
   const handleDisplayCheck = (key: string) => {
     const kIndex = displayRowKeys.indexOf(key);
@@ -53,18 +57,45 @@ function Table({ headersMap, rows, Body }: TablePropsInterface) {
   //-------------TABLE MENU--------------
   const [isMenuOpen, setIsMenuOpen] = useState<boolean>(false);
   return (
-    <div className="w-full overflow-x-scroll">
+    <div className="w-full h-full overflow-x-scroll">
       <table className="w-full">
         <thead>
           <tr>
-            <th>
-              <button>
-                <FontAwesomeIcon icon={faEllipsisH} />
+            <th className="relative">
+              <button
+                className="relative overflow-visible w-max"
+                onClick={() => setIsMenuOpen((prev) => !prev)}
+              >
+                <FontAwesomeIcon icon={faEllipsisH} className="text-txt-base" />
               </button>
+              <ul
+                className={`absolute top-full left-0 text-left  bg-secondary overflow-hidden ${
+                  isMenuOpen
+                    ? "w-max max-h-screen max-w-screen-sm p-2"
+                    : "max-h-0 max-w-0"
+                }`}
+              >
+                {headersMap.map(({ key, header }) => (
+                  <li className="px-2">
+                    <input
+                      type="checkbox"
+                      id={key + "checkbox"}
+                      checked={displayRowKeys.includes(key)}
+                      onClick={() => handleDisplayCheck(key)}
+                    />
+                    <label
+                      className="text-txt-secondary pl-2"
+                      htmlFor={key + "checkbox"}
+                    >
+                      {header}
+                    </label>
+                  </li>
+                ))}
+              </ul>
             </th>
-            {headersMap.map(({ header, key }) =>
-              //since the display list comes from the headers list, it maintains the order
-              displayRowKeys.includes(key) ? (
+            {displayRowKeys.map((k) => {
+              const header = headers[k];
+              return (
                 <th className="text-txt-base text-right pl-4" key={header}>
                   <button onClick={() => handleRequestSort(header)}>
                     {orderBy === header ? (
@@ -76,8 +107,8 @@ function Table({ headersMap, rows, Body }: TablePropsInterface) {
                     {header}
                   </button>
                 </th>
-              ) : null
-            )}
+              );
+            })}
           </tr>
         </thead>
         <Body rows={sortedRows} displayRowKeys={displayRowKeys} />
@@ -166,4 +197,14 @@ function merge<T>(
       arrIndex++;
     }
   }
+}
+
+function parseHeaders(headersMap: HeaderMappingInterface[]) {
+  let headerKeys: HeaderMappingInterface["key"][] = [];
+  let displayHeaders = {};
+  headersMap.map(({ key, header }) => {
+    displayHeaders[key] = header;
+    headerKeys.push(key);
+  });
+  return { headerKeys, displayHeaders };
 }

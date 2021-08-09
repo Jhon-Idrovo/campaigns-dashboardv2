@@ -7,6 +7,7 @@ import axios, { AxiosError } from "axios";
 function useCampaigns() {
   const headersMap = [
     { header: "ID", key: "_id" },
+    { header: "Client", key: "client" },
     { header: "Pages", key: "pages" },
     { header: "Impressions", key: "impressions" },
     { header: "Leads", key: "leads" },
