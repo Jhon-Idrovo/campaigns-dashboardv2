@@ -53,7 +53,7 @@ function Table({ headersMap, rows, Body }: TablePropsInterface) {
   //-------------TABLE MENU--------------
   const [isMenuOpen, setIsMenuOpen] = useState<boolean>(false);
   return (
-    <>
+    <div className="w-full overflow-x-scroll">
       <table className="w-full">
         <thead>
           <tr>
@@ -65,7 +65,7 @@ function Table({ headersMap, rows, Body }: TablePropsInterface) {
             {headersMap.map(({ header, key }) =>
               //since the display list comes from the headers list, it maintains the order
               displayRowKeys.includes(key) ? (
-                <th className="text-txt-base text-right" key={header}>
+                <th className="text-txt-base text-right pl-4" key={header}>
                   <button onClick={() => handleRequestSort(header)}>
                     {orderBy === header ? (
                       <FontAwesomeIcon
@@ -82,7 +82,7 @@ function Table({ headersMap, rows, Body }: TablePropsInterface) {
         </thead>
         <Body rows={sortedRows} displayRowKeys={displayRowKeys} />
       </table>
-    </>
+    </div>
   );
 }
 

@@ -20,54 +20,42 @@ body {
   outline: none;
 }
 
-/* SCROLLBAR */
-/* width */
-::-webkit-scrollbar {
-  width: 0.5rem;
-}
-
-/* Track */
-::-webkit-scrollbar-track {
-  background: #f1f1f1;
-}
-
-/* Handle */
-::-webkit-scrollbar-thumb {
-  background: var(--bg-btn);
-  border-radius: 5px;
-}
-
 /* UTILS */
 .btn-low {
-  @apply rounded-md border-txt-base px-2 hover:bg-primary;
+  @apply rounded-md border-txt-base px-2 py-1 hover:bg-primary;
   border-width: 1px;
 }
 .btn-high {
-  @apply rounded-md bg-primary px-2 text-txt-primary hover:scale-125 cursor-pointer;
+  @apply rounded-md bg-primary px-2 py-1 text-txt-primary hover:scale-125 cursor-pointer;
 }
 .form-container {
-  @apply flex justify-center items-center w-full;
-  height: 60vh;
+  @apply flex justify-center items-center w-full bg-base h-screen;
 }
 .form {
-  @apply flex flex-col justify-center items-center p-4 rounded-md;
+  @apply flex flex-col justify-center items-center p-4 rounded-md bg-secondary text-txt-secondary;
 }
 .form-title {
   @apply font-medium text-lg;
 }
 input {
-  @apply p-2 bg-opacity-90 bg-primary;
+  @apply p-2 bg-ligth rounded-md;
 }
 
+form input {
+  @apply my-2;
+}
+input[type="submit"] {
+  @apply mt-4;
+}
 .message-container {
   @apply w-full flex justify-center items-center;
   height: 60vh;
 }
 .message-header {
-  @apply mb-2;
+  @apply mb-2 mx-auto;
 }
 .message {
-  @apply flex justify-center items-center p-4;
+  @apply flex justify-center items-center p-4 text-txt-base;
 }
 /* LOADING SPINNER */
 .spinner {

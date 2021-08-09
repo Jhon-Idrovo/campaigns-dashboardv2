@@ -12,12 +12,12 @@ function Layout({ children }: { children: React.ReactNode }) {
     if (typeof window !== "undefined") {
       localStorage.removeItem("ss");
       localStorage.removeItem("rr");
-      axiosInstance.defaults.headers["x-access-token"] = "";
+      axiosInstance.defaults.headers.Authorization = "";
       setIsLoged(false);
     }
   }
   return (
-    <div>
+    <div className="bg-base min-h-screen">
       <nav className="text-txt-base bg-base flex justify-between">
         <button
           className="ml-4"

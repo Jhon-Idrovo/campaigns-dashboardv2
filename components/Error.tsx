@@ -1,6 +1,6 @@
 function Error() {
   return (
-    <div className="message-container">
+    <div className="message-container" id="error">
       <div className="message-box">
         <h3 className="message-header">Sorry</h3>
         <p>

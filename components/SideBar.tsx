@@ -47,6 +47,7 @@ function SideBar({
             className={`rounded-md rounded-r-none py-1 px-2 ${
               router.pathname.includes(href) ? "bg-base text-txt-base" : ""
             }`}
+            key={t}
           >
             <button
               onClick={(event) => {

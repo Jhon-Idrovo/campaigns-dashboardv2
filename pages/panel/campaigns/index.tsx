@@ -10,14 +10,13 @@ function Index() {
   const { rows, headersMap, isLoading, error } = useCampaigns();
   return (
     <Layout>
-      <div className="bg-base h-screen">
-        {error ? <Error /> : null}
-        {!error && isLoading ? (
-          <Loading />
-        ) : (
-          <Table rows={rows} headersMap={headersMap} Body={CampaignsTBody} />
-        )}
-      </div>
+      {error ? (
+        <Error />
+      ) : isLoading ? (
+        <Loading />
+      ) : (
+        <Table rows={rows} headersMap={headersMap} Body={CampaignsTBody} />
+      )}
     </Layout>
   );
 }

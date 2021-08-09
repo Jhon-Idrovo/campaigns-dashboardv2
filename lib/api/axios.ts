@@ -6,9 +6,6 @@ const axiosInstance = axios.create({
   headers: {
     "Content-Type": "application/json",
     Accept: "application/json",
-    //use a random name to increase security
-    "x-access-token":
-      typeof window !== "undefined" ? localStorage.getItem("ss") : "",
   },
 });
 
@@ -59,10 +56,10 @@ axiosInstance.interceptors.response.use(
                 localStorage.setItem("ss", response.data.accessToken);
               // localStorage.setItem("refresh_token", response.data.refresh);
 
-              axiosInstance.defaults.headers["x-access-token"] =
-                response.data.accessToken;
-              originalRequest.headers["x-access-token"] =
-                response.data.accessToken;
+              axiosInstance.defaults.headers.Authorization =
+                "JWT " + response.data.accessToken;
+              originalRequest.headers.Authorization =
+                "JWT " + response.data.accessToken;
 
               return axiosInstance(originalRequest);
             })

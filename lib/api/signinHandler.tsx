@@ -16,9 +16,8 @@ async function signinHandler(email: string, password: string) {
     if (res && typeof window !== "undefined") {
       localStorage.setItem("ss", (res as AxiosResponse).data.accessToken);
       localStorage.setItem("rr", (res as AxiosResponse).data.refreshToken);
-      axiosInstance.defaults.headers["x-access-token"] = (
-        res as AxiosResponse
-      ).data.accessToken;
+      axiosInstance.defaults.headers.Authorization =
+        "JWT " + (res as AxiosResponse).data.accessToken;
       return false;
     }
     alert("Something went wrong, please try again");

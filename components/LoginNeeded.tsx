@@ -2,13 +2,13 @@ import Link from "next/link";
 
 function LoginNeeded() {
   return (
-    <div className="message-container">
+    <div className="message-container" id="login-needed">
       <div className="message">
         <p>
           It seems like you're not authenticated, please{" "}
-          <Link href={"/signin"}>
+          <Link href="/signin">
             <a>click here</a>
-          </Link>{" "}
+          </Link>
         </p>
       </div>
     </div>
