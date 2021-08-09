@@ -34,6 +34,9 @@ export declare interface AffiliateInterface {
   reach: number;
   comments: string;
 }
+export declare interface UseAffiliatesInterface extends BaseUseInterface {
+  rows: AffiliateInterface[];
+}
 export declare interface HeaderMappingInterface {
   header: string;
   key: string;

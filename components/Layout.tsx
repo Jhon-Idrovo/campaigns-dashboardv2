@@ -1,6 +1,7 @@
 import { useState } from "react";
 import SideBar from "./SideBar";
 import LoginNeeded from "./LoginNeeded";
+import axiosInstance from "../lib/api/axios";
 
 function Layout({ children }: { children: React.ReactNode }) {
   const [isSideBarOpen, setIsSideBarOpen] = useState<boolean>(false);
@@ -11,6 +12,7 @@ function Layout({ children }: { children: React.ReactNode }) {
     if (typeof window !== "undefined") {
       localStorage.removeItem("ss");
       localStorage.removeItem("rr");
+      axiosInstance.defaults.headers["x-access-token"] = "";
       setIsLoged(false);
     }
   }

@@ -8,7 +8,7 @@ const axiosInstance = axios.create({
     Accept: "application/json",
     //use a random name to increase security
     "x-access-token":
-      typeof window !== "undefined" && localStorage.getItem("ss"),
+      typeof window !== "undefined" ? localStorage.getItem("ss") : "",
   },
 });
 

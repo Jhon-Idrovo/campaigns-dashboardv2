@@ -6,7 +6,7 @@ import axios, { AxiosError } from "axios";
 
 function useCampaigns() {
   const headersMap = [
-    { header: "ID", key: "id" },
+    { header: "ID", key: "_id" },
     { header: "Pages", key: "pages" },
     { header: "Impressions", key: "impressions" },
     { header: "Leads", key: "leads" },
@@ -26,12 +26,15 @@ function useCampaigns() {
     data: campaigns,
     error,
     isLoading,
-  } = useQuery("campaigns", () =>
-    axiosInstance
+    isFetching,
+  } = useQuery("campaigns", () => {
+    return axiosInstance
       .get("/campaigns")
-      .then((res) => res.data.campaigns as CampaignInterface[])
-  );
+      .then((res) => res.data.campaigns as CampaignInterface[]);
+  });
   useEffect(() => {
+    console.log(campaigns, error, isLoading);
+
     const errorMsg = error
       ? axios.isAxiosError(error)
         ? error.response?.data.error
@@ -41,7 +44,7 @@ function useCampaigns() {
       error: errorMsg,
       rows: campaigns ? campaigns : [],
       headersMap,
-      isLoading,
+      isLoading: isLoading || isFetching,
     });
   }, [campaigns, error, isLoading]);
   return returnObj;

@@ -9,7 +9,12 @@ function useClients() {
     error: "",
     isLoading: true,
     rows: [],
-    headersMap: [],
+    headersMap: [
+      { header: "ID", key: "_id" },
+      { header: "Name", key: "name" },
+      { header: "Type", key: "type" },
+      { header: "Comments", key: "comments" },
+    ],
   } as UseClientInteface;
   const [clientsObj, setClientsObj] =
     useState<UseClientInteface>(baseClientObj);
