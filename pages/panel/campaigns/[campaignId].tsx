@@ -4,19 +4,14 @@ import {
   NextPageContext,
 } from "next";
 import router, { useRouter } from "next/router";
+import axiosInstance from "../../../lib/api/axios";
+import useCampaign from "../../../lib/hooks/useCampaign";
 
 function Campaign() {
   const route = useRouter();
   const { campaignID } = router.query;
+  const { campaign, isLoading, error } = useCampaign(campaignID as string);
   return <div></div>;
 }
 
 export default Campaign;
-
-export async function getServerSideProps(context: GetServerSidePropsContext) {
-  const { campaignID } = context.params;
-
-  return {
-    props: {}, // will be passed to the page component as props
-  };
-}
