@@ -3,10 +3,10 @@ import Error from "../../../components/Error";
 import Layout from "../../../components/Layout";
 import Loading from "../../../components/Loading";
 import Table from "../../../components/Table";
-import useAffiliates from "../../../lib/hooks/useAffiliates";
+import useClients from "../../../lib/hooks/useClients";
 
 function Index() {
-  const { rows, headersMap, isLoading, error } = useAffiliates();
+  const { rows, headersMap, isLoading, error } = useClients();
   return (
     <Layout>
       {error ? (

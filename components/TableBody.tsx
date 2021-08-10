@@ -2,7 +2,7 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { CampaignInterface } from "../lib/ts/interfaces";
 import { faEye } from "@fortawesome/free-solid-svg-icons";
 import Link from "next/link";
-function CampaignsTBody({
+function TableBody({
   rows,
   displayRowKeys,
 }: {
@@ -43,4 +43,4 @@ function CampaignsTBody({
   );
 }
 
-export default CampaignsTBody;
+export default TableBody;

@@ -23,6 +23,7 @@ function useClients() {
     data: clients,
     error,
     isLoading,
+    isFetching,
   } = useQuery("clients", () =>
     axiosInstance.get("/clients").then((res) => res.data)
   );
@@ -37,7 +38,12 @@ function useClients() {
       rows = clients;
     }
 
-    setClientsObj({ ...baseClientObj, isLoading, error: errorMsg, rows });
+    setClientsObj({
+      ...baseClientObj,
+      isLoading: isLoading || isFetching,
+      error: errorMsg,
+      rows,
+    });
   }, [clients, isLoading, error]);
   return clientsObj;
 }

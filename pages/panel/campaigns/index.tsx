@@ -1,5 +1,4 @@
-import { MouseEventHandler } from "react";
-import CampaignsTBody from "../../../components/CampaignsTBody";
+import TableBody from "../../../components/TableBody";
 import Error from "../../../components/Error";
 import Layout from "../../../components/Layout";
 import Loading from "../../../components/Loading";
@@ -15,7 +14,7 @@ function Index() {
       ) : isLoading ? (
         <Loading />
       ) : (
-        <Table rows={rows} headersMap={headersMap} Body={CampaignsTBody} />
+        <Table rows={rows} headersMap={headersMap} Body={TableBody} />
       )}
     </Layout>
   );

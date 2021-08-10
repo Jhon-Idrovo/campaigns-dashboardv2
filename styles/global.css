@@ -48,18 +48,18 @@ input[type="submit"] {
   @apply mt-4;
 }
 .message-container {
-  @apply w-full flex justify-center items-center;
-  height: 60vh;
+  @apply w-full h-5/6 flex flex-col justify-center items-center;
 }
 .message-header {
   @apply mb-2 mx-auto;
 }
 .message {
-  @apply flex justify-center items-center p-4 text-txt-base;
+  @apply flex flex-col justify-center items-center p-4 rounded-sm bg-secondary text-txt-base;
 }
 /* LOADING SPINNER */
 .spinner {
-  border: 4px solid rgba(0, 0, 0, 0.63);
+  @apply border-4 border-txt-secondary;
+
   width: 5vh;
   height: 5vh;
   border-radius: 50%;

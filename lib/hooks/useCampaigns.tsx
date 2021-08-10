@@ -34,7 +34,7 @@ function useCampaigns() {
       .then((res) => res.data.campaigns as CampaignInterface[]);
   });
   useEffect(() => {
-    console.log(campaigns, error, isLoading);
+    console.log("useCampaigns 37  :", campaigns, error, isLoading, isFetching);
 
     const errorMsg = error
       ? axios.isAxiosError(error)

@@ -23,6 +23,7 @@ function useAffiliates() {
     error,
     data: affiliates,
     isLoading,
+    isFetching
   } = useQuery("affiliates", () =>
     axiosInstance.get("/affiliates").then((res) => res.data.affiliates)
   );
@@ -39,7 +40,7 @@ function useAffiliates() {
       rows = affiliates;
     }
 
-    setAffiliatesObj({ ...baseObj, isLoading, error: errorMsg, rows });
+    setAffiliatesObj({ ...baseObj, isLoading:isLoading||isFetching, error: errorMsg, rows });
   }, [error, isLoading, affiliates]);
   return affiliatesObj;
 }

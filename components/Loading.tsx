@@ -1,7 +1,7 @@
 function Loading() {
   return (
     <div className="message-container" id="loading">
-      <div className="message-box">
+      <div className="message">
         <div className="spinner"></div>
         <p>Loading...</p>
       </div>

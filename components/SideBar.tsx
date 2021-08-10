@@ -32,7 +32,7 @@ function SideBar({
   return (
     <div
       id="menu"
-      className={`fixed left-0 bottom-0 top-0 bg-primary ${
+      className={`fixed left-0 bottom-0 top-0 bg-primary z-10 ${
         isDisplaying ? "" : "transform transition-transform -translate-x-full"
       }`}
     >

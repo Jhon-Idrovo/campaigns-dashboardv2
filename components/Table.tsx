@@ -3,7 +3,6 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faChevronUp, faEllipsisH } from "@fortawesome/free-solid-svg-icons";
 
 import {
-  CampaignInterface,
   HeaderMappingInterface,
   TablePropsInterface,
 } from "../lib/ts/interfaces";
@@ -76,12 +75,12 @@ function Table({ headersMap, rows, Body }: TablePropsInterface) {
                 }`}
               >
                 {headersMap.map(({ key, header }) => (
-                  <li className="px-2">
+                  <li className="px-2" key={"menu-" + key}>
                     <input
                       type="checkbox"
                       id={key + "checkbox"}
                       checked={displayRowKeys.includes(key)}
-                      onClick={() => handleDisplayCheck(key)}
+                      onChange={() => handleDisplayCheck(key)}
                     />
                     <label
                       className="text-txt-secondary pl-2"
@@ -94,9 +93,12 @@ function Table({ headersMap, rows, Body }: TablePropsInterface) {
               </ul>
             </th>
             {displayRowKeys.map((k) => {
-              const header = headers[k];
+              const header = headers[k] as keyof typeof rows[0];
               return (
-                <th className="text-txt-base text-right pl-4" key={header}>
+                <th
+                  className="text-txt-base text-right pl-4"
+                  key={"header-" + header}
+                >
                   <button onClick={() => handleRequestSort(header)}>
                     {orderBy === header ? (
                       <FontAwesomeIcon
