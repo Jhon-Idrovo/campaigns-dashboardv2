@@ -8,14 +8,18 @@ export declare interface HeaderMappingInterface {
   header: string;
   key: string;
 }
+export declare type Row =
+  | AffiliateInterface
+  | CampaignInterface
+  | ClientInterface;
 export declare interface TablePropsInterface {
   headersMap: HeaderMappingInterface[];
-  rows: (AffiliateInterface | CampaignInterface | ClientInterface)[];
+  rows: Row[];
   Body: Function;
 }
 //--------------CLIENT TYPES--------------------------
 export declare interface ClientInterface {
-  id: number;
+  _id: number;
   name: string;
   type: string;
   comments: string;
@@ -25,7 +29,7 @@ export declare interface UseClientInteface extends BaseUseInterface {
 }
 //----------------CAMPAIGN TYPES----------------------
 export declare interface CampaignInterface {
-  id: number;
+  _id: number;
   pages: number;
   impressions: number;
   leads: number;
@@ -39,7 +43,7 @@ export declare interface UseCampaignsInterface extends BaseUseInterface {
 }
 //---------------AFFILIATE INTERFACES-----------------------
 export declare interface AffiliateInterface {
-  id: number;
+  _id: number;
   campaigns: string[];
   paid: number;
   reach: number;

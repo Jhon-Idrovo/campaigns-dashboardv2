@@ -4,6 +4,7 @@ import { faChevronUp, faEllipsisH } from "@fortawesome/free-solid-svg-icons";
 
 import {
   HeaderMappingInterface,
+  Row,
   TablePropsInterface,
 } from "../lib/ts/interfaces";
 
@@ -17,14 +18,12 @@ function Table({ headersMap, rows, Body }: TablePropsInterface) {
   const [orderBy, setOrderBy] = useState<string>(headersMap[0].header);
   useEffect(() => {
     let tempRows = [...sortedRows];
-    rowsMergeSort<typeof rows[0]>(
-      tempRows,
-      0,
-      tempRows.length - 1,
-      headersMap.filter(({ header }) => header === orderBy)[0].key,
-      order
+    tempRows.sort(
+      compareValues(
+        headersMap.find(({ header }) => header === orderBy)?.key,
+        order
+      )
     );
-    console.log(sortedRows === tempRows);
     setSortedRows(tempRows);
   }, [orderBy, order]);
   const handleRequestSort = (header: string) => {
@@ -121,84 +120,27 @@ function Table({ headersMap, rows, Body }: TablePropsInterface) {
 
 export default Table;
 
-function rowsMergeSort<T>(
-  rows: T[],
-  l: number,
-  r: number,
-  orderBy: string,
-  order: Order
-) {
-  //T is the type of one row, not the list of them
-  if (l >= r) {
-    return;
-  }
-  const m = l + Math.floor((r - l) / 2);
-  rowsMergeSort(rows, l, m, orderBy, order);
-  rowsMergeSort(rows, m + 1, r, orderBy, order);
-  merge<T>(rows, l, m, r, orderBy, order);
-}
-function merge<T>(
-  arr: T[],
-  l: number,
-  m: number,
-  r: number,
-  orderBy: string,
-  order: Order
-) {
-  const lengthL = m - l + 1;
-  const lengthR = r - m;
+function compareValues(orderBy: keyof Row, order: Order) {
+  return function (rowA: Row, rowB: Row) {
+    //the property does not exist in either of the rows
+    if (!rowA.hasOwnProperty(orderBy) || !rowB.hasOwnProperty(orderBy))
+      return 0;
+    //extract values to compare
+    const valA =
+      typeof rowA[orderBy] === "string"
+        ? rowA[orderBy].toUpperCase()
+        : rowA[orderBy];
+    const valB =
+      typeof rowB[orderBy] === "string"
+        ? rowB[orderBy].toUpperCase()
+        : rowB[orderBy];
 
-  let L = Array(lengthL);
-  let R = Array(lengthR);
-  //temp arrays
-  for (let i = 0; i < lengthL; i++) {
-    L[i] = arr[l + i];
-  }
-  for (let i = 0; i < lengthR; i++) {
-    R[i] = arr[m + 1 + i];
-  }
-
-  //merging temp arrays back to the orinignal one
-  let lIndex, rIndex;
-  lIndex = rIndex = 0;
-  let arrIndex = 0;
-  while (lIndex < lengthL && rIndex < lengthR) {
-    //compare the rows
-    //orderBy is a key and L[lindex] is an object
-
-    //descendent order
-    if (order === "desc") {
-      if (L[lIndex][orderBy] <= R[rIndex][orderBy]) {
-        arr[arrIndex] = L[lIndex];
-        lIndex++;
-      } else {
-        arr[arrIndex] = R[rIndex];
-        rIndex++;
-      }
-    }
-    //ascendent order
-    if (order === "asc") {
-      if (L[lIndex][orderBy] >= R[rIndex][orderBy]) {
-        arr[arrIndex] = L[lIndex];
-        lIndex++;
-      } else {
-        arr[arrIndex] = R[rIndex];
-        rIndex++;
-      }
-    }
-    arrIndex++;
-    //copying the remaining elements of R or L, if any
-    while (lIndex < lengthL) {
-      arr[arrIndex] = L[lIndex];
-      lIndex++;
-      arrIndex++;
-    }
-    while (rIndex < lengthR) {
-      arr[arrIndex] = R[rIndex];
-      rIndex++;
-      arrIndex++;
-    }
-  }
+    //run the comparission
+    let comparission = 0; //default case valA = valB
+    valA > valB ? (comparission = 1) : (comparission = -1);
+    //order transformation, if neccesary
+    return order === "desc" ? comparission * -1 : comparission;
+  };
 }
 
 function parseHeaders(headersMap: HeaderMappingInterface[]) {

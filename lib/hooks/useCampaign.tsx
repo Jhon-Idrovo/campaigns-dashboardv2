@@ -2,15 +2,16 @@ import axios from "axios";
 import { useEffect, useState } from "react";
 import { useQuery } from "react-query";
 import axiosInstance from "../api/axios";
+import { CampaignInterface } from "../ts/interfaces";
 
 function useCampaign(campaignID: string) {
-  const { data, error, isLoading, isFetching } = useQuery("campaign", () => {
+  const { data, error, isLoading, isFetching } = useQuery(campaignID, () =>
     axiosInstance
-      .get(`/campaings/${campaignID}`)
-      .then((res) => res.data.campaign);
-  });
+      .get(`/campaigns/${campaignID}`)
+      .then((res) => res.data.campaign)
+  );
   const [campaignObj, setCampaignObj] = useState({
-    campaign: {},
+    campaign: {} as {} | CampaignInterface,
     error: "",
     isLoading: true,
   });
@@ -22,7 +23,7 @@ function useCampaign(campaignID: string) {
         : "An error happened while fetching the campaign";
     }
     setCampaignObj({
-      campaign: data ? data : {},
+      campaign: data ? (data as CampaignInterface) : {},
       error: errorMsg,
       isLoading: isLoading || isFetching,
     });

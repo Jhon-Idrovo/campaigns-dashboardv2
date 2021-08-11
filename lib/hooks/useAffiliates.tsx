@@ -3,17 +3,12 @@ import { useQuery } from "react-query";
 import axiosInstance from "../api/axios";
 import { useState, useEffect } from "react";
 import axios from "axios";
+import { affiliatesMapping } from "../display/headerToKeysMappings";
+
 function useAffiliates() {
-  const headersMap = [
-    { header: "ID", key: "_id" },
-    { header: "Campaigns", key: "campaigns" },
-    { header: "Paid", key: "paid" },
-    { header: "Reach", key: "reach" },
-    { header: "Comments", key: "comments" },
-  ];
   const baseObj = {
     error: "",
-    headersMap,
+    headersMap: affiliatesMapping,
     isLoading: true,
     rows: [],
   };
@@ -23,7 +18,7 @@ function useAffiliates() {
     error,
     data: affiliates,
     isLoading,
-    isFetching
+    isFetching,
   } = useQuery("affiliates", () =>
     axiosInstance.get("/affiliates").then((res) => res.data.affiliates)
   );
@@ -40,7 +35,12 @@ function useAffiliates() {
       rows = affiliates;
     }
 
-    setAffiliatesObj({ ...baseObj, isLoading:isLoading||isFetching, error: errorMsg, rows });
+    setAffiliatesObj({
+      ...baseObj,
+      isLoading: isLoading || isFetching,
+      error: errorMsg,
+      rows,
+    });
   }, [error, isLoading, affiliates]);
   return affiliatesObj;
 }

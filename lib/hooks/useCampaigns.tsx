@@ -3,22 +3,13 @@ import { useQuery } from "react-query";
 import axiosInstance from "../api/axios";
 import { useState, useEffect } from "react";
 import axios, { AxiosError } from "axios";
+import { campaignsMapping } from "../display/headerToKeysMappings";
 
 function useCampaigns() {
-  const headersMap = [
-    { header: "ID", key: "_id" },
-    { header: "Client", key: "client" },
-    { header: "Pages", key: "pages" },
-    { header: "Impressions", key: "impressions" },
-    { header: "Leads", key: "leads" },
-    { header: "Affiliates", key: "affiliates" },
-    { header: "Price", key: "price" },
-    { header: "Spend", key: "spend" },
-  ];
   //header are in the same order as the keys in the rows object
   const [returnObj, setReturnObj] = useState<UseCampaignsInterface>({
     error: "",
-    headersMap,
+    headersMap: campaignsMapping,
     isLoading: true,
     rows: [],
   });
@@ -44,10 +35,10 @@ function useCampaigns() {
     setReturnObj({
       error: errorMsg,
       rows: campaigns ? campaigns : [],
-      headersMap,
+      headersMap: campaignsMapping,
       isLoading: isLoading || isFetching,
     });
-  }, [campaigns, error, isLoading]);
+  }, [campaigns, error, isLoading, isFetching]);
   return returnObj;
 }
 

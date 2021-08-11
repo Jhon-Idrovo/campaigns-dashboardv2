@@ -2,6 +2,7 @@ import axios from "axios";
 import { useState, useEffect } from "react";
 import { useQuery } from "react-query";
 import axiosInstance from "../api/axios";
+import { clientsMapping } from "../display/headerToKeysMappings";
 import { UseClientInteface } from "../ts/interfaces";
 
 function useClients() {
@@ -9,12 +10,7 @@ function useClients() {
     error: "",
     isLoading: true,
     rows: [],
-    headersMap: [
-      { header: "ID", key: "_id" },
-      { header: "Name", key: "name" },
-      { header: "Type", key: "type" },
-      { header: "Comments", key: "comments" },
-    ],
+    headersMap: clientsMapping,
   } as UseClientInteface;
   const [clientsObj, setClientsObj] =
     useState<UseClientInteface>(baseClientObj);
@@ -25,9 +21,11 @@ function useClients() {
     isLoading,
     isFetching,
   } = useQuery("clients", () =>
-    axiosInstance.get("/clients").then((res) => res.data)
+    axiosInstance.get("/clients").then((res) => res.data.clients)
   );
   useEffect(() => {
+    console.log(clients);
+
     let rows = [];
     let errorMsg = "";
     if (error) {

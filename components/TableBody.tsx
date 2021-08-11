@@ -12,9 +12,9 @@ function TableBody({
   return (
     <tbody>
       {rows.map((row) => (
-        <tr className="text-txt-base border-2" key={row.id}>
+        <tr className="text-txt-base border-2" key={row._id}>
           <td className="">
-            <Link href={`/panel/campaigns/${row.id}`}>
+            <Link href={`/panel/campaigns/${row._id}`}>
               <a>
                 <FontAwesomeIcon icon={faEye} />
               </a>
@@ -22,7 +22,7 @@ function TableBody({
           </td>
           {displayRowKeys.map((key) => (
             <td
-              key={key + row.id}
+              key={key + row._id}
               className="text-right pl-4 whitespace-nowrap"
             >
               {/* since typeof 'a'[0] = string we don't have to 
